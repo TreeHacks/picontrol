@@ -1,28 +1,11 @@
 {
-  "name": "argon-dashboard-react",
+  "name": "picontrol-web",
   "version": "1.0.0",
-  "description": "React version of Argon Dashboard by Creative Tim",
+  "description": "PiControl by Treehacks",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/creativetimofficial/argon-dashboard-react.git"
-  },
-  "keywords": [
-    "react",
-    "reactjs",
-    "argon",
-    "argon-react",
-    "dashboard",
-    "dashboard-react",
-    "argon-dashboard",
-    "argon-dashboard-react"
-  ],
-  "author": "Creative Tim",
+  "keywords": [],
+  "author": "Treehacks",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/creativetimofficial/argon-dashboard-react/issues"
-  },
-  "homepage": "https://demos.creative-tim.com/argon-dashboard-react/",
   "scripts": {
     "start": "concurrently \"react-scripts start\" \"cd backend && go build && ./main \"",
     "build": "react-scripts build",
