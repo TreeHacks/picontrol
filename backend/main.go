@@ -1,13 +1,28 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 )
 
+var db *sql.DB
+
 func main() {
+	err := godotenv.Load("../.env")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	//open connection to postgres database
+	OpenDB()
+
+	//web stuff
 	port := os.Getenv("PORT")
 	if len(port) == 0 {
 		port = "8000"
@@ -15,7 +30,40 @@ func main() {
 
 	r := gin.Default()
 
+	//test route for now, will later serve the react page
+	r.GET("/", TestHandler)
+
+	//more test routes for now, will later serve the react page
+	//TODO: look into whether or not there's a better to do "nested wildcards" like this. For now, I think two levels after admin is p decent
+	r.GET("/admin", TestHandler)
+	r.GET("/admin/:whatever", TestHandler)
+
 	APIroutes(r)
 
 	r.Run(fmt.Sprintf(":%s", port)) // listen and serve on process.env.port
+}
+
+func OpenDB() {
+	user := os.Getenv("POSTGRES_USER")
+	pass := os.Getenv("POSTGRES_PASS")
+	host := os.Getenv("POSTGRES_HOST")
+	port := os.Getenv("POSTGRES_PORT")
+	dbname := os.Getenv("POSTGRES_DBNAME")
+
+	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+
+		"password=%s dbname=%s sslmode=disable",
+		host, port, user, pass, dbname)
+
+	var err error
+	db, err = sql.Open("postgres", psqlInfo)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func TestHandler(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"Success": "woo!",
+	})
 }

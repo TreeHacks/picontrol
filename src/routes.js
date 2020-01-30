@@ -16,7 +16,7 @@
 
 */
 import Index from "views/Index.jsx";
-// import Profile from "views/examples/Profile.jsx";
+import Profile from "views/examples/Profile.jsx";
 import Maps from "views/examples/Maps.jsx";
 // import Register from "views/examples/Register.jsx";
 // import Login from "views/examples/Login.jsx";
@@ -44,14 +44,14 @@ var routes = [
     icon: "ni ni-bullet-list-67 text-orange",
     component: Maps,
     layout: "/admin"
-  }
-  /*{
+  },
+  {
     path: "/user-profile",
-    name: "User Profile",
+    name: "Check In",
     icon: "ni ni-single-02 text-yellow",
     component: Profile,
     layout: "/admin"
-  },
+  }/*,
   {
     path: "/tables",
     name: "Tables",
