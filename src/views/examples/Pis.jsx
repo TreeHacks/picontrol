@@ -33,14 +33,14 @@ import Header from "components/Headers/Header.jsx";
 import PiCard from "components/PiCard.jsx"
 
 const dummyData = [
-  { name: "demo rpi 1", online: false },
-  { name: "demo rpi 2", online: true },
-  { name: "demo rpi 3", online: false }
+  { name: "demo rpi 1", online: false, address: "123" },
+  { name: "demo rpi 2", online: true, address: "456" },
+  { name: "demo rpi 3", online: false, address: "789" }
 ]
 
 const dataitems = dummyData.map((obj) =>
   <Col lg="4" md="4">
-    <PiCard name={obj.name} online={obj.online} />
+    <PiCard name={obj.name} online={obj.online} address={obj.address} />
   </Col>
 );
 

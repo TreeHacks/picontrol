@@ -21,7 +21,8 @@ import Maps from "views/examples/Maps.jsx";
 // import Register from "views/examples/Register.jsx";
 // import Login from "views/examples/Login.jsx";
 // import Tables from "views/examples/Tables.jsx";
-import Icons from "views/examples/Icons.jsx";
+import Pis from "views/examples/Pis.jsx";
+import Manage from "views/examples/Manage.jsx";
 
 var routes = [
   {
@@ -29,28 +30,40 @@ var routes = [
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: Index,
-    layout: "/admin"
+    layout: "/admin",
+    shown: true
   },
   {
     path: "/icons",
     name: "Pis",
     icon: "ni ni-tablet-button text-blue",
-    component: Icons,
-    layout: "/admin"
+    component: Pis,
+    layout: "/admin",
+    shown: true
   },
   {
     path: "/maps",
     name: "Logs",
     icon: "ni ni-bullet-list-67 text-orange",
     component: Maps,
-    layout: "/admin"
+    layout: "/admin",
+    shown: true
+  },
+  {
+    path: "/manage/:address",
+    name: "Manage",
+    icon: "ni ni-bullet-list-67 text-orange",
+    component: Manage,
+    layout: "/admin",
+    shown: false
   },
   {
     path: "/user-profile",
     name: "Check In",
     icon: "ni ni-single-02 text-yellow",
     component: Profile,
-    layout: "/admin"
+    layout: "/admin",
+    shown: false
   }/*,
   {
     path: "/tables",

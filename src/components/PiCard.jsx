@@ -2,6 +2,10 @@ import React from "react";
 
 import { Card, CardBody, CardTitle, Container, Row, Col, Button } from "reactstrap";
 
+import { NavLink as NavLinkRRD, Link } from "react-router-dom";
+
+import StatusText from "./StatusText"
+
 class PiCard extends React.Component {
     render() {
         return (
@@ -20,27 +24,11 @@ class PiCard extends React.Component {
                             </span>
                         </div>
                         <Col className="col-auto">
-                            <Button color="primary" class="my-5"> Manage </Button>
+                            <Link to={"/admin/manage/" + this.props.address}> <Button color="primary" class="my-5"> Manage </Button> </Link>
                         </Col>
                     </Row>
                 </CardBody>
             </Card>
-        )
-    }
-}
-
-function StatusText(props) {
-    if (props.online) {
-        return (
-            <span className="text-success">
-                online
-        </span>
-        )
-    } else {
-        return (
-            <span className="text-danger">
-                offline
-            </span>
         )
     }
 }
