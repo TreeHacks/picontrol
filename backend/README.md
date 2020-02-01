@@ -20,6 +20,5 @@ CREATE TABLE events {
     id SERIAL PRIMARY KEY,
     user_id VARCHAR(50), /* id of the scanned user card/band */
     success BOOLEAN,
-    endpoint TEXT,
-    response TEXT /* we'll store the response for easy debugging */
+    eventid TEXT
 }

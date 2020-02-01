@@ -103,6 +103,14 @@ func GetPi(address string) (Pi, error) {
 	return out, nil
 }
 
+func CreateLog(pi Pi, user string, success bool) {
+	sqlStatement := `
+INSERT INTO events (pi_address, user_id, success, eventid)
+VALUES ($1, $2, $3, $4)`
+
+	db.Exec(sqlStatement, pi.Address, user, success, pi.Eventid)
+}
+
 //TODO: implement function
 //Checks the socketio channels for each pi and sees if they're online, and then updates them in the database if so
 func UpdatePiStatuses() {

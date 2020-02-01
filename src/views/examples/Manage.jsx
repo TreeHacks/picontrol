@@ -86,6 +86,12 @@ class Icons extends React.Component {
                           <Row>
                             <Col md="12">
                               <FormGroup>
+                                Name
+                                <Input
+                                  type="text"
+                                  placeholder="Name"
+                                />
+                                Event ID
                                 <Input
                                   type="text"
                                   placeholder="Event ID"

@@ -9,16 +9,16 @@ import Pis from "views/examples/Pis.jsx";
 import Manage from "views/examples/Manage.jsx";
 
 var routes = [
+  // {
+  //   path: "/index",
+  //   name: "Dashboard",
+  //   icon: "ni ni-tv-2 text-primary",
+  //   component: Index,
+  //   layout: "/admin",
+  //   shown: true
+  // },
   {
-    path: "/index",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    component: Index,
-    layout: "/admin",
-    shown: true
-  },
-  {
-    path: "/icons",
+    path: "/pis",
     name: "Pis",
     icon: "ni ni-tablet-button text-blue",
     component: Pis,
