@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -25,6 +27,35 @@ func APIroutes(r *gin.Engine) {
 	api.PUT("/pis/update/:address", func(c *gin.Context) {
 
 	})
+
+	api.POST("/pis/register/:address", func(c *gin.Context) {
+		piAddress := c.Param("address")
+		_, err := GetPi(piAddress)
+
+		if err != nil {
+			AddPi(piAddress, piAddress, "")
+		}
+	})
+
+	api.POST("/scanticket/:address", func(c *gin.Context) {
+		piAddress := c.Param("address")
+		serial := c.Query("serial")
+
+		if piAddress == "" || serial == "" {
+			checkErr(fmt.Errorf("Bad values for pi address or serial"), c)
+			return
+		}
+
+		pi, err := GetPi(piAddress)
+
+		if checkErr(err, c) {
+			return
+		}
+
+		eventId := pi.Eventid
+
+		ScanTicket(eventId, serial)
+	})
 }
 
 func checkErr(err error, c *gin.Context) bool {
@@ -45,4 +76,13 @@ func checkErr(err error, c *gin.Context) bool {
 //TODO: complete :)
 func AdminRoutes(r *gin.Engine) {
 	//admin := r.Group("/admin")
+}
+
+//Sends event to eventive
+//"scanticket" endpoint
+//TODO: make function actually work
+//	send request to eventive. Return error if error :(
+func ScanTicket(event string, serial string) error {
+	fmt.Printf("Scanning user %s for event %s", serial, event)
+	return nil
 }

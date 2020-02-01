@@ -6,21 +6,21 @@ import (
 )
 
 type Pi struct {
-	Address  string
-	Id       int
-	Slug     string
-	Endpoint string
+	Address string
+	Id      int
+	Slug    string
+	Eventid string
 }
 
 //all of these functions use the global *sql.DB variable created in main.go
 
 //Adds a pi to the database
-func AddPi(address, slug, endpoint string) error {
+func AddPi(address, slug, eventid string) error {
 	sqlStatement := `
-INSERT INTO pis (address, slug, endpoint)
+INSERT INTO pis (address, slug, eventid)
 VALUES ($1, $2, $3)`
 
-	_, err := db.Exec(sqlStatement, address, slug, endpoint)
+	_, err := db.Exec(sqlStatement, address, slug, eventid)
 
 	return err
 }
@@ -54,7 +54,7 @@ WHERE address = $1;`
 }
 
 func ListPis() ([]Pi, error) {
-	sqlTemplate := `SELECT address, id, slug, endpoint FROM pis`
+	sqlTemplate := `SELECT address, id, slug, eventid FROM pis`
 
 	rows, err := db.Query(sqlTemplate)
 
@@ -71,30 +71,30 @@ func ListPis() ([]Pi, error) {
 		var address string
 		var id int
 		var slug string
-		var endpoint string
+		var eventid string
 
-		err = rows.Scan(&address, &id, &slug, &endpoint)
+		err = rows.Scan(&address, &id, &slug, &eventid)
 		if err != nil {
 			return out, err
 		}
 
-		out = append(out, Pi{address, id, slug, endpoint})
+		out = append(out, Pi{address, id, slug, eventid})
 	}
 
 	return out, nil
 }
 
 func GetPi(address string) (Pi, error) {
-	sqlTemplate := `SELECT id, slug, endpoint FROM pis WHERE address=$1`
+	sqlTemplate := `SELECT id, slug, eventid FROM pis WHERE address=$1`
 
 	row := db.QueryRow(sqlTemplate, address)
 
 	var id int
 	var slug string
-	var endpoint string
+	var eventid string
 
-	err := row.Scan(&id, &slug, &endpoint)
-	out := Pi{address, id, slug, endpoint}
+	err := row.Scan(&id, &slug, &eventid)
+	out := Pi{address, id, slug, eventid}
 
 	if err != nil {
 		return out, err
