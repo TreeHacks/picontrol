@@ -55,7 +55,7 @@ class Admin extends React.Component {
             imgAlt: "..."
           }}
         />
-        <div className="main-content" ref="mainContent">
+        <div className="main-content" ref="mainContent" style={{ "overflow-x": "hidden" }}>
           <AdminNavbar
             {...this.props}
             brandText={this.getBrandText(this.props.location.pathname)}

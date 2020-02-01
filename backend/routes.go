@@ -28,12 +28,19 @@ func APIroutes(r *gin.Engine) {
 
 	})
 
+	//Registers a pi by its mac address if it doesn't already exist
+	//TODO: Should send back something...
 	api.POST("/pis/register/:address", func(c *gin.Context) {
 		piAddress := c.Param("address")
 		_, err := GetPi(piAddress)
 
 		if err != nil {
-			AddPi(piAddress, piAddress, "")
+			adderr := AddPi(piAddress, piAddress, "")
+			if !checkErr(adderr, c) {
+				c.JSON(200, gin.H{"message": "success"})
+			}
+		} else {
+			c.JSON(200, gin.H{"message": "success", "reason": "pi already registered"}) //still a good thing, pi already registered
 		}
 	})
 

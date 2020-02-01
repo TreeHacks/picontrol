@@ -51,7 +51,7 @@ func OpenDB() {
 	dbname := os.Getenv("POSTGRES_DBNAME")
 
 	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+
-		"password=%s dbname=%s sslmode=disable",
+		"password=%s dbname=%s sslmode=require",
 		host, port, user, pass, dbname)
 
 	var err error

@@ -27,6 +27,7 @@ import PiCard from "components/PiCard.jsx"
 
 import StatusText from "components/StatusText.jsx";
 import LogTable from "components/LogTable.jsx";
+import NotificationContainer from "components/NotificationContainer.jsx";
 
 const dummyData = [
   { name: "demo rpi 1", online: false },
@@ -41,6 +42,10 @@ const dataitems = dummyData.map((obj) =>
 );
 
 class Icons extends React.Component {
+  constructor(props) {
+    super(props);
+    this.NotificationRef = React.createRef();
+  }
   state = {};
 
   componentDidMount() {
@@ -110,10 +115,14 @@ class Icons extends React.Component {
                       <LogTable address={this.state.address} />
                     </Col>
                   </Row>
+                  <Button color="primary" type="button" onClick={() => this.NotificationRef.current.addAlert("success", "example success alert")}>
+                    Add Alert
+                  </Button>
                 </CardBody>
               </Card>
             </div>
           </Row>
+          <NotificationContainer ref={this.NotificationRef} />
         </Container>
       </>
     );
