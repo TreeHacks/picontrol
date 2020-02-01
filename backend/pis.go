@@ -6,10 +6,10 @@ import (
 )
 
 type Pi struct {
-	Address string
-	Id      int
-	Slug    string
-	Eventid string
+	Address string `json:"address"`
+	Id      int    `json:"id"`
+	Slug    string `json:"name"`
+	Eventid string `json:"eventid"`
 }
 
 //all of these functions use the global *sql.DB variable created in main.go
