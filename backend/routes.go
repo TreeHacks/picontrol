@@ -81,9 +81,7 @@ func APIroutes(r *gin.Engine) {
 			return
 		}
 
-		eventId := pi.Eventid
-
-		ScanTicket(eventId, serial)
+		ScanTicket(pi, serial)
 	})
 }
 
@@ -111,7 +109,9 @@ func AdminRoutes(r *gin.Engine) {
 //"scanticket" endpoint
 //TODO: make function actually work
 //	send request to eventive. Return error if error :(
-func ScanTicket(event string, serial string) error {
-	fmt.Printf("Scanning user %s for event %s", serial, event)
+func ScanTicket(pi Pi, serial string) error {
+	fmt.Printf("Scanning user %s for event %s", serial, pi.Eventid)
+
+	CreateLog(pi, serial, true)
 	return nil
 }
