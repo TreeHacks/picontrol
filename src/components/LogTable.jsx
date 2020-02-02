@@ -41,7 +41,7 @@ export default function LogTable(props) {
 
                 {logs.map((obj) => (
                     <tr>
-                        <td>{obj.timestamp}</td>
+                        <td><TimeStamp epoch={obj.timestamp} /></td>
                         <td>{obj.userId}</td>
                         <td>{obj.eventid}</td>
                     </tr>
@@ -50,6 +50,17 @@ export default function LogTable(props) {
             </tbody>
         </Table>
     );
+}
+
+function TimeStamp(props) {
+    var d = new Date();
+    d.setSeconds(props.epoch);
+
+    return (
+        <>
+            {`${d.toString().split(" ")[4]}`}
+        </>
+    )
 }
 
 const _loadLogs = async (address, setLogs) => {
