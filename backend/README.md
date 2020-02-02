@@ -20,5 +20,5 @@ CREATE TABLE events {
     id SERIAL PRIMARY KEY,
     user_id VARCHAR(50), /* id of the scanned user card/band */
     success BOOLEAN,
-    eventid TEXT
+    eventid TEXT,
 }

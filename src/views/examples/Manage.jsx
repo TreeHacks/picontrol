@@ -29,18 +29,6 @@ import StatusText from "components/StatusText.jsx";
 import LogTable from "components/LogTable.jsx";
 import NotificationContainer from "components/NotificationContainer.jsx";
 
-const dummyData = [
-  { name: "demo rpi 1", online: false },
-  { name: "demo rpi 2", online: true },
-  { name: "demo rpi 3", online: false }
-]
-
-const dataitems = dummyData.map((obj) =>
-  <Col lg="4" md="4">
-    <PiCard name={obj.name} online={obj.online} />
-  </Col>
-);
-
 class Icons extends React.Component {
   constructor(props) {
     super(props);
@@ -56,11 +44,21 @@ class Icons extends React.Component {
 
     this.setState({ address: address })
 
+    //fetch pi details
     const response = await fetch(`/api/pis/getpi/${address}`)
     if (response.status !== 200) { //error
-      this.NotificationRef.current.addAlert("danger", `Error code ${response.status}: ${response.statusText}`)
+      this.NotificationRef.current.addAlert("danger", `Error getting pi data - code ${response.status}: ${response.statusText}`)
     }
     this.setState({ pi: await response.json() });
+
+    //fetch logs
+    const logresponse = await fetch(`/api/pis/getlogs/${address}`)
+    if (response.status !== 200) { //error
+      this.NotificationRef.current.addAlert("danger", `Error getting logs - code ${logresponse.status}: ${logresponse.statusText}`)
+    }
+    this.setState({ logs: await logresponse.json() });
+
+    console.log(this.state.logs);
 
     console.log(address)
   }

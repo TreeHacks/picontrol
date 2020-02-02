@@ -33,6 +33,15 @@ func APIroutes(r *gin.Engine) {
 		}
 	})
 
+	api.GET("/pis/getlogs/:address", func(c *gin.Context) {
+		piAddress := c.Param("address")
+		logs, err := GetLogsForPi(piAddress)
+
+		if !checkErr(err, c) {
+			c.JSON(200, logs)
+		}
+	})
+
 	api.PUT("/pis/update/:address", func(c *gin.Context) {
 		piAddress := c.Param("address")
 		name := c.Query("name")

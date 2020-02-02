@@ -12,6 +12,14 @@ type Pi struct {
 	Eventid string `json:"eventid"`
 }
 
+type Log struct {
+	Pi_address string `json:"address"`
+	Id         int    `json:"id"`
+	User_id    string `json:"userId"`
+	Success    bool   `json:"success"`
+	Eventid    string `json:"eventid"`
+}
+
 //all of these functions use the global *sql.DB variable created in main.go
 
 //Adds a pi to the database
@@ -109,6 +117,36 @@ INSERT INTO events (pi_address, user_id, success, eventid)
 VALUES ($1, $2, $3, $4)`
 
 	db.Exec(sqlStatement, pi.Address, user, success, pi.Eventid)
+}
+
+//Gets logs of the pi with given MAC address
+func GetLogsForPi(address string) ([]Log, error) {
+	sqlStatement := `SELECT pi_address, id, user_id, success, eventid FROM events WHERE pi_address=$1 ORDER BY id DESC`
+
+	rows, err := db.Query(sqlStatement, address)
+
+	out := make([]Log, 0)
+
+	if rows == nil {
+		return nil, fmt.Errorf("No logs found")
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+
+		var l Log
+
+		err = rows.Scan(&l.Pi_address, &l.Id, &l.User_id, &l.Success, &l.Eventid)
+		if err != nil {
+			return out, err
+		}
+
+		out = append(out, l)
+	}
+
+	return out, nil
+
 }
 
 //TODO: implement function
