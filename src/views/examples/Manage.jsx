@@ -45,19 +45,35 @@ class Icons extends React.Component {
   constructor(props) {
     super(props);
     this.NotificationRef = React.createRef();
+    this.state = {
+      pi: {}
+    }
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
-  state = {};
 
-  componentDidMount() {
+  async componentDidMount() {
     const { address } = this.props.match.params;
 
     this.setState({ address: address })
 
-    //TODO: API call... will be stored in this.state.pi
-
-    this.setState({ pi: { name: "demo rpi 1", online: false, address: "123" } });
+    const response = await fetch(`/api/pis/getpi/${address}`)
+    if (response.status !== 200) { //error
+      this.NotificationRef.current.addAlert("danger", `Error code ${response.status}: ${response.statusText}`)
+    }
+    this.setState({ pi: await response.json() });
 
     console.log(address)
+  }
+
+  async handleSubmit(event) {
+    event.preventDefault();
+
+    const response = await fetch(`/api/pis/update/${this.state.address}?name=${event.target.name.value}&eventid=${event.target.eventid.value}`, { method: "PUT" })
+    if (response.status !== 200) { //error
+      this.NotificationRef.current.addAlert("danger", `Error code ${response.status}: ${response.statusText}`)
+    } else {
+      console.log(await response.json())
+    }
   }
 
   render() {
@@ -71,7 +87,7 @@ class Icons extends React.Component {
             <div className=" col">
               <Card className=" shadow">
                 <CardHeader className=" bg-transparent">
-                  <h3 className=" mb-0">Managing Pi: {this.state.address}</h3>
+                  <h3 className=" mb-0">Managing {this.state.pi.name} (Address: {this.state.address})</h3>
                 </CardHeader>
                 <CardBody>
                   <div className="mb-4">
@@ -87,7 +103,7 @@ class Icons extends React.Component {
                     <Col lg="6">
                       <div>
                         <h2>Update Pi</h2>
-                        <Form>
+                        <Form onSubmit={this.handleSubmit}>
                           <Row>
                             <Col md="12">
                               <FormGroup>
@@ -95,16 +111,20 @@ class Icons extends React.Component {
                                 <Input
                                   type="text"
                                   placeholder="Name"
+                                  defaultValue={this.state.pi.name}
+                                  name="name"
                                 />
                                 Event ID
                                 <Input
                                   type="text"
                                   placeholder="Event ID"
+                                  defaultValue={this.state.pi.eventid}
+                                  name="eventid"
                                 />
                               </FormGroup>
                             </Col>
                           </Row>
-                          <Button color="primary" type="button">
+                          <Button color="primary" type="submit">
                             Update
                           </Button>
                         </Form>
@@ -115,8 +135,8 @@ class Icons extends React.Component {
                       <LogTable address={this.state.address} />
                     </Col>
                   </Row>
-                  <Button color="primary" type="button" onClick={() => this.NotificationRef.current.addAlert("success", "example success alert")}>
-                    Add Alert
+                  <Button color="primary" className="mt-3" type="button" onClick={() => this.NotificationRef.current.addAlert("success", "example success alert")}>
+                    Test Alert
                   </Button>
                 </CardBody>
               </Card>

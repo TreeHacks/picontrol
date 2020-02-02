@@ -24,8 +24,30 @@ func APIroutes(r *gin.Engine) {
 		}
 	})
 
-	api.PUT("/pis/update/:address", func(c *gin.Context) {
+	api.GET("/pis/getpi/:address", func(c *gin.Context) {
+		piAddress := c.Param("address")
+		pi, err := GetPi(piAddress)
 
+		if !checkErr(err, c) {
+			c.JSON(200, pi)
+		}
+	})
+
+	api.PUT("/pis/update/:address", func(c *gin.Context) {
+		piAddress := c.Param("address")
+		name := c.Query("name")
+		eventid := c.Query("eventid")
+		updateMap := make(map[string]string)
+		updateMap["slug"] = name
+		updateMap["eventid"] = eventid
+
+		err := UpdatePi(piAddress, updateMap)
+
+		if !checkErr(err, c) {
+			c.JSON(200, gin.H{
+				"message": "successfully updated pi",
+			})
+		}
 	})
 
 	//Registers a pi by its mac address if it doesn't already exist
