@@ -51,15 +51,6 @@ class Icons extends React.Component {
     }
     this.setState({ pi: await response.json() });
 
-    //fetch logs
-    const logresponse = await fetch(`/api/pis/getlogs/${address}`)
-    if (response.status !== 200) { //error
-      this.NotificationRef.current.addAlert("danger", `Error getting logs - code ${logresponse.status}: ${logresponse.statusText}`)
-    }
-    this.setState({ logs: await logresponse.json() });
-
-    console.log(this.state.logs);
-
     console.log(address)
   }
 
@@ -70,7 +61,7 @@ class Icons extends React.Component {
     if (response.status !== 200) { //error
       this.NotificationRef.current.addAlert("danger", `Error code ${response.status}: ${response.statusText}`)
     } else {
-      console.log(await response.json())
+      this.NotificationRef.current.addAlert("success", (await response.json()).message)
     }
   }
 

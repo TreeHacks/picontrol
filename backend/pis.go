@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"time"
 )
 
 type Pi struct {
@@ -18,6 +19,7 @@ type Log struct {
 	User_id    string `json:"userId"`
 	Success    bool   `json:"success"`
 	Eventid    string `json:"eventid"`
+	Time       int    `json:"timestamp"`
 }
 
 //all of these functions use the global *sql.DB variable created in main.go
@@ -113,15 +115,17 @@ func GetPi(address string) (Pi, error) {
 
 func CreateLog(pi Pi, user string, success bool) {
 	sqlStatement := `
-INSERT INTO events (pi_address, user_id, success, eventid)
-VALUES ($1, $2, $3, $4)`
+INSERT INTO events (pi_address, user_id, success, eventid, time)
+VALUES ($1, $2, $3, $4, $5)`
 
-	db.Exec(sqlStatement, pi.Address, user, success, pi.Eventid)
+	timestamp := time.Now().Unix()
+
+	db.Exec(sqlStatement, pi.Address, user, success, pi.Eventid, timestamp)
 }
 
 //Gets logs of the pi with given MAC address
 func GetLogsForPi(address string) ([]Log, error) {
-	sqlStatement := `SELECT pi_address, id, user_id, success, eventid FROM events WHERE pi_address=$1 ORDER BY id DESC`
+	sqlStatement := `SELECT pi_address, id, user_id, success, eventid, time FROM events WHERE pi_address=$1 ORDER BY id DESC LIMIT 100`
 
 	rows, err := db.Query(sqlStatement, address)
 
@@ -137,7 +141,7 @@ func GetLogsForPi(address string) ([]Log, error) {
 
 		var l Log
 
-		err = rows.Scan(&l.Pi_address, &l.Id, &l.User_id, &l.Success, &l.Eventid)
+		err = rows.Scan(&l.Pi_address, &l.Id, &l.User_id, &l.Success, &l.Eventid, &l.Time)
 		if err != nil {
 			return out, err
 		}

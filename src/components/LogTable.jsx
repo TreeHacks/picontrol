@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import {
     Card,
@@ -21,6 +21,13 @@ import {
 
 
 export default function LogTable(props) {
+
+
+    const [logs, setLogs] = useState([]);
+    React.useEffect(() => {
+        _loadLogs(props.address, setLogs);
+    }, [props.address]); // <-- Have to pass in [] here! 
+
     return (
         <Table className="align-items-center">
             <thead className="thead-light">
@@ -31,12 +38,29 @@ export default function LogTable(props) {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>AB:CD:EF:GH</td>
-                    <td>5e2f7cc592f477002ba60128</td>
-                </tr>
+
+                {logs.map((obj) => (
+                    <tr>
+                        <td>{obj.timestamp}</td>
+                        <td>{obj.userId}</td>
+                        <td>{obj.eventid}</td>
+                    </tr>
+                ))}
+
             </tbody>
         </Table>
     );
+}
+
+const _loadLogs = async (address, setLogs) => {
+    const logresponse = await fetch(`/api/pis/getlogs/${address}`)
+    if (logresponse.status !== 200) { //error
+        this.NotificationRef.current.addAlert("danger", `Error getting logs - code ${logresponse.status}: ${logresponse.statusText}`)
+    }
+
+    console.log(logresponse);
+
+    var arr = await logresponse.json();
+    console.log(arr);
+    setLogs(arr);
 }

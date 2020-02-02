@@ -21,4 +21,5 @@ CREATE TABLE events {
     user_id VARCHAR(50), /* id of the scanned user card/band */
     success BOOLEAN,
     eventid TEXT,
+    time TIMESTAMP
 }
