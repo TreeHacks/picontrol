@@ -7,8 +7,10 @@
   "author": "Treehacks",
   "license": "MIT",
   "proxy": "http://localhost:8000",
+  "homepage": "http://localhost:8000/admin",
   "scripts": {
-    "start": "concurrently \"react-scripts start\" \"cd backend && go build && ./main \"",
+    "start": "cd backend && go build && ./main",
+    "dev-start": "concurrently \"react-scripts start\" \"cd backend && go build && ./main \"",
     "backend": "cd backend && go build && ./main",
     "build": "react-scripts build",
     "test": "react-scripts test",

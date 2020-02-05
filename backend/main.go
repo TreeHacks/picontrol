@@ -35,8 +35,7 @@ func main() {
 
 	//more test routes for now, will later serve the react page
 	//TODO: look into whether or not there's a better to do "nested wildcards" like this. For now, I think two levels after admin is p decent
-	r.GET("/admin", TestHandler)
-	r.GET("/admin/:whatever", TestHandler)
+	r.Static("/admin", "../build")
 
 	APIroutes(r)
 
@@ -63,7 +62,5 @@ func OpenDB() {
 }
 
 func TestHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"Success": "woo!",
-	})
+	c.Redirect(302, "/admin")
 }

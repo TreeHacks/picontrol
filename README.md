@@ -1,3 +1,10 @@
 PiControl Web
 
-Bootstrapped with Creative Tim's argon react dashboard
+## Installation
+
+- Set "homepage" in package.json to the url you want.
+- Run npm build
+- Run npm start
+- Cross fingers
+- Works?
+
