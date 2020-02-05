@@ -153,6 +153,36 @@ func GetLogsForPi(address string) ([]Log, error) {
 
 }
 
+//Gets logs of the pi with given MAC address
+func GetLogs() ([]Log, error) {
+	sqlStatement := `SELECT pi_address, id, user_id, success, eventid, time FROM events ORDER BY id DESC LIMIT 100`
+
+	rows, err := db.Query(sqlStatement)
+
+	out := make([]Log, 0)
+
+	if rows == nil {
+		return nil, fmt.Errorf("No logs found")
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+
+		var l Log
+
+		err = rows.Scan(&l.Pi_address, &l.Id, &l.User_id, &l.Success, &l.Eventid, &l.Time)
+		if err != nil {
+			return out, err
+		}
+
+		out = append(out, l)
+	}
+
+	return out, nil
+
+}
+
 //TODO: implement function
 //Checks the socketio channels for each pi and sees if they're online, and then updates them in the database if so
 func UpdatePiStatuses() {

@@ -53,7 +53,7 @@ export default function LogTable(props) {
 }
 
 function TimeStamp(props) {
-    var d = new Date();
+    var d = new Date(0);
     d.setSeconds(props.epoch);
 
     return (
@@ -64,9 +64,11 @@ function TimeStamp(props) {
 }
 
 const _loadLogs = async (address, setLogs) => {
-    const logresponse = await fetch(`/api/pis/getlogs/${address}`)
-    if (logresponse.status !== 200) { //error
-        this.NotificationRef.current.addAlert("danger", `Error getting logs - code ${logresponse.status}: ${logresponse.statusText}`)
+    var logresponse;
+    if (address !== undefined) {
+        logresponse = await fetch(`/api/pis/getlogs/${address}`)
+    } else {
+        logresponse = await fetch(`/api/pis/getlogs/`);
     }
 
     console.log(logresponse);
