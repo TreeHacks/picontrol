@@ -14,10 +14,7 @@ import (
 var db *sql.DB
 
 func main() {
-	err := godotenv.Load("../.env")
-	if err != nil {
-		log.Fatal(err)
-	}
+	godotenv.Load("../.env")
 
 	//open connection to postgres database
 	OpenDB()
