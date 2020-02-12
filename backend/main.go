@@ -36,6 +36,10 @@ func main() {
 
 	APIroutes(r)
 
+	r.NoRoute(func(c *gin.Context) {
+		c.File("../build/index.html")
+	})
+
 	r.Run(fmt.Sprintf(":%s", port)) // listen and serve on process.env.port
 }
 

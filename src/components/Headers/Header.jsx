@@ -11,7 +11,7 @@ class Header extends React.Component {
         <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
           <Container fluid>
             <div className="header-body">
-              {/* Card stats */}
+              {/* Card stats 
               <Row>
                 <Col lg="6" xl="4">
                   <Card className="card-stats mb-4 mb-xl-0">
@@ -84,6 +84,7 @@ class Header extends React.Component {
                   </Card>
                 </Col>
               </Row>
+              */}
             </div>
           </Container>
         </div>

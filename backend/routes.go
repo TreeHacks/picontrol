@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+	"net/url"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -124,11 +127,24 @@ func AdminRoutes(r *gin.Engine) {
 
 //Sends event to eventive
 //"scanticket" endpoint
-//TODO: make function actually work
 //	send request to eventive. Return error if error :(
 func ScanTicket(pi Pi, serial string) error {
 	fmt.Printf("Scanning user %s for event %s", serial, pi.Eventid)
 
-	CreateLog(pi, serial, true)
-	return nil
+	apiKey := os.Getenv("EVENTIVE_API_KEY")
+
+	apiString := fmt.Sprintf("https://api.eventive.org/scan_ticket?api_key=%s", apiKey)
+
+	_, err := http.PostForm(apiString, url.Values{
+		"event": {pi.Eventid},
+		"code":  {serial},
+	})
+
+	if err != nil {
+		CreateLog(pi, serial, false)
+	} else {
+		CreateLog(pi, serial, true)
+	}
+
+	return err
 }
