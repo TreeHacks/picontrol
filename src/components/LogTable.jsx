@@ -35,6 +35,7 @@ export default function LogTable(props) {
                     <th scope="col">Time</th>
                     <th scope="col">Participant</th>
                     <th scope="col">Event ID</th>
+                    <th scope="col">Success?</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,6 +45,7 @@ export default function LogTable(props) {
                         <td><TimeStamp epoch={obj.timestamp} /></td>
                         <td>{obj.userId}</td>
                         <td>{obj.eventid}</td>
+                        <td>{obj.success.toString()}</td>
                     </tr>
                 ))}
 

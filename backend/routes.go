@@ -135,12 +135,12 @@ func ScanTicket(pi Pi, serial string) error {
 
 	apiString := fmt.Sprintf("https://api.eventive.org/scan_ticket?api_key=%s", apiKey)
 
-	_, err := http.PostForm(apiString, url.Values{
+	resp, err := http.PostForm(apiString, url.Values{
 		"event": {pi.Eventid},
 		"code":  {serial},
 	})
 
-	if err != nil {
+	if err != nil || resp.StatusCode != 200 {
 		CreateLog(pi, serial, false)
 	} else {
 		CreateLog(pi, serial, true)
