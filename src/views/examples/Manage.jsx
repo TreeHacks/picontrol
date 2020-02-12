@@ -21,6 +21,8 @@ import {
   InputGroup,
   Table
 } from "reactstrap";
+
+import Select from "react-select";
 // core components
 import Header from "components/Headers/Header.jsx";
 import PiCard from "components/PiCard.jsx"
@@ -29,12 +31,19 @@ import StatusText from "components/StatusText.jsx";
 import LogTable from "components/LogTable.jsx";
 import NotificationContainer from "components/NotificationContainer.jsx";
 
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' },
+];
+
 class Icons extends React.Component {
   constructor(props) {
     super(props);
     this.NotificationRef = React.createRef();
     this.state = {
-      pi: {}
+      pi: {},
+      selectedOption: null
     }
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -51,13 +60,38 @@ class Icons extends React.Component {
     }
     this.setState({ pi: await response.json() });
 
+    //fetch eventive details
+    //TODO: convert url to env var...
+    const resp = await fetch(`https://api.eventive.org/event_buckets/5e2d4729d44a8300290de7cf/events_slim?api_key=2db927190aa686598bf88c893181cb7a`);
+    if (resp.status !== 200) {
+      this.NotificationRef.current.addAlert("danger", `Error getting eventive data - code ${response.status}: ${response.statusText}`)
+    }
+    let data = await resp.json();
+    let options = [];
+    var selectedOption = null;
+
+    for (var i = 0; i < data.length; i++) {
+      let opt = {
+        value: data[i].id,
+        label: data[i].title
+      }
+
+      options.push(opt)
+
+      if (data[i].id === this.state.pi.eventid) {
+        selectedOption = opt
+      }
+    }
+
+    this.setState({ selectOptions: options, selectedOption: selectedOption });
+
     console.log(address)
   }
 
   async handleSubmit(event) {
     event.preventDefault();
 
-    const response = await fetch(`/api/pis/update/${this.state.address}?name=${event.target.name.value}&eventid=${event.target.eventid.value}`, { method: "PUT" })
+    const response = await fetch(`/api/pis/update/${this.state.address}?name=${event.target.name.value}&eventid=${this.state.selectedOption.value}`, { method: "PUT" })
     if (response.status !== 200) { //error
       this.NotificationRef.current.addAlert("danger", `Error code ${response.status}: ${response.statusText}`)
     } else {
@@ -65,7 +99,16 @@ class Icons extends React.Component {
     }
   }
 
+  handleSelectChange = selectedOption => {
+    this.setState(
+      { selectedOption },
+      () => console.log(`Option selected:`, this.state.selectedOption)
+    );
+  };
+
   render() {
+    const { selectedOption } = this.state;
+
     return (
       <>
         <Header />
@@ -104,12 +147,18 @@ class Icons extends React.Component {
                                   name="name"
                                 />
                                 Event ID
+                                <Select
+                                  value={selectedOption}
+                                  onChange={this.handleSelectChange}
+                                  options={this.state.selectOptions}
+                                />
+                                {/*
                                 <Input
                                   type="text"
                                   placeholder="Event ID"
                                   defaultValue={this.state.pi.eventid}
                                   name="eventid"
-                                />
+                                /> */}
                               </FormGroup>
                             </Col>
                           </Row>
