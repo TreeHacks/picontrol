@@ -24,8 +24,11 @@ export default function LogTable(props) {
 
 
     const [logs, setLogs] = useState([]);
+    const [events, setEvents] = useState({});
+
     React.useEffect(() => {
         _loadLogs(props.address, setLogs);
+        _loadEvents(setEvents);
     }, [props.address]); // <-- Have to pass in [] here! 
 
     return (
@@ -34,7 +37,7 @@ export default function LogTable(props) {
                 <tr>
                     <th scope="col">Time</th>
                     <th scope="col">Participant</th>
-                    <th scope="col">Event ID</th>
+                    <th scope="col">Event</th>
                     <th scope="col">Success?</th>
                 </tr>
             </thead>
@@ -44,7 +47,7 @@ export default function LogTable(props) {
                     <tr>
                         <td><TimeStamp epoch={obj.timestamp} /></td>
                         <td>{obj.userId}</td>
-                        <td>{obj.eventid}</td>
+                        <td>{events[obj.eventid] || obj.eventid}</td>
                         <td>{obj.success.toString()}</td>
                     </tr>
                 ))}
@@ -78,4 +81,17 @@ const _loadLogs = async (address, setLogs) => {
     var arr = await logresponse.json();
     console.log(arr);
     setLogs(arr);
+}
+
+const _loadEvents = async (setEvents) => {
+    //TODO: use env var instead of hardcoded link...
+    const resp = await fetch(`https://api.eventive.org/event_buckets/5e2d4729d44a8300290de7cf/events_slim?api_key=2db927190aa686598bf88c893181cb7a`);
+    const data = await resp.json()
+
+    var idsToName = {}
+    for (var i = 0; i < data.length; i++) {
+        idsToName[data[i].id] = data[i].title
+    }
+
+    setEvents(idsToName);
 }
