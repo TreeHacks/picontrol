@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 // reactstrap components
@@ -8,7 +7,7 @@ import { Container, Row, Col } from "reactstrap";
 import AuthNavbar from "components/Navbars/AuthNavbar.jsx";
 import AuthFooter from "components/Footers/AuthFooter.jsx";
 
-import routes from "routes.js";
+import routes from "routes";
 
 class Auth extends React.Component {
   componentDidMount() {
