@@ -44,18 +44,10 @@ func main() {
 }
 
 func OpenDB() {
-	user := os.Getenv("POSTGRES_USER")
-	pass := os.Getenv("POSTGRES_PASS")
-	host := os.Getenv("POSTGRES_HOST")
-	port := os.Getenv("POSTGRES_PORT")
-	dbname := os.Getenv("POSTGRES_DBNAME")
-
-	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+
-		"password=%s dbname=%s sslmode=require",
-		host, port, user, pass, dbname)
+	db_uri := os.Getenv("DATABASE_URI")
 
 	var err error
-	db, err = sql.Open("postgres", psqlInfo)
+	db, err = sql.Open("postgres", db_uri)
 
 	if err != nil {
 		log.Fatal(err)
