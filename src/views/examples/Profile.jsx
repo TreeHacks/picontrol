@@ -15,7 +15,7 @@ import {
   Col
 } from "reactstrap";
 // core components
-import UserHeader from "components/Headers/UserHeader.jsx";
+import UserHeader from "../../components/Headers/UserHeader.jsx";
 
 class Profile extends React.Component {
   render() {
@@ -34,7 +34,7 @@ class Profile extends React.Component {
                         <img
                           alt="..."
                           className="rounded-circle"
-                          src={require("assets/img/theme/team-4-800x800.jpg")}
+                          src={require("../../assets/img/theme/team-4-800x800.jpg")}
                         />
                       </a>
                     </div>

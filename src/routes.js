@@ -1,12 +1,8 @@
 
-import Index from "views/Index.jsx";
-import Profile from "views/examples/Profile.jsx";
-import Maps from "views/examples/Maps.jsx";
-// import Register from "views/examples/Register.jsx";
-// import Login from "views/examples/Login.jsx";
-// import Tables from "views/examples/Tables.jsx";
-import Pis from "views/examples/Pis.jsx";
-import Manage from "views/examples/Manage.jsx";
+import Profile from "./views/examples/Profile";
+import Maps from "./views/examples/Maps";
+import Pis from "./views/examples/Pis";
+import Manage from "./views/examples/Manage";
 
 var routes = [
   // {

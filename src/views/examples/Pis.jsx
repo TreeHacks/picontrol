@@ -13,9 +13,9 @@ import {
   UncontrolledTooltip
 } from "reactstrap";
 // core components
-import Header from "components/Headers/Header.jsx";
-import PiCard from "components/PiCard.jsx"
-import NotificationContainer from "components/NotificationContainer.jsx"
+import Header from "../../components/Headers/Header.jsx";
+import PiCard from "../../components/PiCard.jsx"
+import NotificationContainer from "../../components/NotificationContainer.jsx"
 
 const dummyData = [
   { name: "demo rpi 1", online: false, address: "123" },

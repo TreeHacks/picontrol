@@ -24,12 +24,11 @@ import {
 
 import Select from "react-select";
 // core components
-import Header from "components/Headers/Header.jsx";
-import PiCard from "components/PiCard.jsx"
+import Header from "../../components/Headers/Header.jsx";
 
-import StatusText from "components/StatusText.jsx";
-import LogTable from "components/LogTable.jsx";
-import NotificationContainer from "components/NotificationContainer.jsx";
+import StatusText from "../../components/StatusText.jsx";
+import LogTable from "../../components/LogTable.jsx";
+import NotificationContainer from "../../components/NotificationContainer.jsx";
 
 const options = [
   { value: 'chocolate', label: 'Chocolate' },

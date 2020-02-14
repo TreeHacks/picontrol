@@ -6,7 +6,7 @@ import React from "react";
 import { Card, Container, Row, CardBody, CardHeader } from "reactstrap";
 
 // core components
-import Header from "components/Headers/Header.jsx";
+import Header from "../../components/Headers/Header.jsx";
 import LogTable from "../../components/LogTable";
 // mapTypeId={google.maps.MapTypeId.ROADMAP}
 
