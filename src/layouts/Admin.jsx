@@ -7,7 +7,7 @@ import AdminNavbar from "components/Navbars/AdminNavbar.jsx";
 import AdminFooter from "components/Footers/AdminFooter.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
 
-import routes from "routes";
+import routes from "../routes";
 
 class Admin extends React.Component {
   componentDidUpdate(e) {
