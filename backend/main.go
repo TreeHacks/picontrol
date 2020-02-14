@@ -44,7 +44,7 @@ func main() {
 }
 
 func OpenDB() {
-	db_uri := os.Getenv("DATABASE_URI")
+	db_uri := os.Getenv("DATABASE_URL")
 
 	var err error
 	db, err = sql.Open("postgres", db_uri)
