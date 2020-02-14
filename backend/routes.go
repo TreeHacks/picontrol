@@ -1,9 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"io/ioutil"
 	"net/http"
-	"net/url"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -135,16 +136,43 @@ func ScanTicket(pi Pi, serial string) error {
 
 	apiString := fmt.Sprintf("https://api.eventive.org/scan_ticket?api_key=%s", apiKey)
 
-	resp, err := http.PostForm(apiString, url.Values{
-		"event": {pi.Eventid},
-		"code":  {serial},
-	})
+	jsonString := fmt.Sprintf(`{"event":"%s", "code": "%s"}`, pi.Eventid, serial)
+	jsonBytes := []byte(jsonString)
+
+	/*
+		fmt.Println(apiString)
+		fmt.Println(url.Values{
+			"event": {pi.Eventid},
+			"code":  {serial},
+		})
+
+		resp, err := http.PostForm(apiString, url.Values{
+			"event": {pi.Eventid},
+			"code":  {serial},
+		})
+
+		fmt.Println(resp)
+	*/
+
+	req, err := http.NewRequest("POST", apiString, bytes.NewBuffer(jsonBytes))
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+
+	fmt.Println("---debug stuff---")
+	fmt.Println("response Status:", resp.Status)
+	fmt.Println("response Headers:", resp.Header)
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println("response Body:", string(body))
 
 	if err != nil || resp.StatusCode != 200 {
 		CreateLog(pi, serial, false)
 	} else {
 		CreateLog(pi, serial, true)
 	}
+
+	defer resp.Body.Close()
 
 	return err
 }
