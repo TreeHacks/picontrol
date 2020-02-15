@@ -170,7 +170,9 @@ class Icons extends React.Component {
                     </Col>
                     <Col lg="6">
                       <h2>Logs</h2>
-                      <LogTable address={this.state.address} />
+                      {this.state.address && 
+                        <LogTable address={this.state.address} />
+                      }
                     </Col>
                   </Row>
                   <Button color="primary" className="mt-3" type="button" onClick={() => this.NotificationRef.current.addAlert("success", "example success alert")}>
