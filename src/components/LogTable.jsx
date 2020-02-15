@@ -31,7 +31,9 @@ export default function LogTable(props) {
         _loadLogs(props.address, setLogs);
         _loadEvents(setEvents);
     }, [props.address]); // <-- Have to pass in [] here! 
-
+    if ((!logs || !logs.length) || !events) {
+        return <div>Loading...</div>;
+    }
     return (
         <Table className="align-items-center">
             <thead className="thead-light">
