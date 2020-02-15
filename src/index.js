@@ -10,8 +10,9 @@ import "./assets/scss/argon-dashboard-react.scss";
 import AdminLayout from "./layouts/Admin.jsx";
 import AuthLayout from "./layouts/Auth.jsx";
 
-export async function fetchWithAuth(url) {
+export async function fetchWithAuth(url, opts) {
   return fetch(url, {
+    ...opts,
     headers: {Authorization: "Basic " + sessionStorage.getItem("auth") }
   });
 }
