@@ -10,6 +10,13 @@ import Sidebar from "../components/Sidebar/Sidebar.jsx";
 import routes from "../routes";
 
 class Admin extends React.Component {
+  componentDidMount() {
+    const auth = sessionStorage.getItem("auth");
+    if (!auth) {
+      const password = prompt("Password?");
+      sessionStorage.setItem("auth", btoa("admin:" + password));
+    }
+  }
   componentDidUpdate(e) {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;

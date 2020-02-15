@@ -18,6 +18,7 @@ import {
     InputGroup,
     Table
 } from "reactstrap";
+import { fetchWithAuth } from "..";
 
 
 export default function LogTable(props) {
@@ -71,9 +72,9 @@ function TimeStamp(props) {
 const _loadLogs = async (address, setLogs) => {
     var logresponse;
     if (address !== undefined) {
-        logresponse = await fetch(`/api/pis/getlogs/${address}`)
+        logresponse = await fetchWithAuth(`/api/pis/getlogs/${address}`)
     } else {
-        logresponse = await fetch(`/api/pis/getlogs/`);
+        logresponse = await fetchWithAuth(`/api/pis/getlogs/`);
     }
 
     console.log(logresponse);

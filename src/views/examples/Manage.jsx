@@ -29,6 +29,7 @@ import Header from "../../components/Headers/Header.jsx";
 import StatusText from "../../components/StatusText.jsx";
 import LogTable from "../../components/LogTable.jsx";
 import NotificationContainer from "../../components/NotificationContainer.jsx";
+import { fetchWithAuth } from "../../index.js";
 
 const options = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -53,7 +54,7 @@ class Icons extends React.Component {
     this.setState({ address: address })
 
     //fetch pi details
-    const response = await fetch(`/api/pis/getpi/${address}`)
+    const response = await fetchWithAuth(`/api/pis/getpi/${address}`)
     if (response.status !== 200) { //error
       this.NotificationRef.current.addAlert("danger", `Error getting pi data - code ${response.status}: ${response.statusText}`)
     }
@@ -90,7 +91,7 @@ class Icons extends React.Component {
   async handleSubmit(event) {
     event.preventDefault();
 
-    const response = await fetch(`/api/pis/update/${this.state.address}?name=${event.target.name.value}&eventid=${this.state.selectedOption.value}`, { method: "PUT" })
+    const response = await fetchWithAuth(`/api/pis/update/${this.state.address}?name=${event.target.name.value}&eventid=${this.state.selectedOption.value}`, { method: "PUT" })
     if (response.status !== 200) { //error
       this.NotificationRef.current.addAlert("danger", `Error code ${response.status}: ${response.statusText}`)
     } else {

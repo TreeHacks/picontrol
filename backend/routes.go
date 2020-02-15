@@ -12,6 +12,9 @@ import (
 
 func APIroutes(r *gin.Engine) {
 	api := r.Group("/api")
+	authorized := r.Group("/api", gin.BasicAuth(gin.Accounts{
+        "admin": os.Getenv("PASSWORD"),
+    }))
 
 	api.GET("/ping", func(c *gin.Context) {
 		c.String(200, "pong")
@@ -21,14 +24,14 @@ func APIroutes(r *gin.Engine) {
 
 	//Get a list of Pis in the database
 	//TODO: sort by whether connected or not
-	api.GET("/pis/list", func(c *gin.Context) {
+	authorized.GET("/pis/list", func(c *gin.Context) {
 		list, err := ListPis()
 		if !checkErr(err, c) {
 			c.JSON(200, list)
 		}
 	})
 
-	api.GET("/pis/getpi/:address", func(c *gin.Context) {
+	authorized.GET("/pis/getpi/:address", func(c *gin.Context) {
 		piAddress := c.Param("address")
 		pi, err := GetPi(piAddress)
 
@@ -37,7 +40,7 @@ func APIroutes(r *gin.Engine) {
 		}
 	})
 
-	api.GET("/pis/getlogs", func(c *gin.Context) {
+	authorized.GET("/pis/getlogs", func(c *gin.Context) {
 		logs, err := GetLogs()
 
 		if !checkErr(err, c) {
@@ -45,7 +48,7 @@ func APIroutes(r *gin.Engine) {
 		}
 	})
 
-	api.GET("/pis/getlogs/:address", func(c *gin.Context) {
+	authorized.GET("/pis/getlogs/:address", func(c *gin.Context) {
 		piAddress := c.Param("address")
 		logs, err := GetLogsForPi(piAddress)
 

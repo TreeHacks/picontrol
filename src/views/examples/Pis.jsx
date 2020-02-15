@@ -16,6 +16,7 @@ import {
 import Header from "../../components/Headers/Header.jsx";
 import PiCard from "../../components/PiCard.jsx"
 import NotificationContainer from "../../components/NotificationContainer.jsx"
+import { fetchWithAuth } from "../../index.js";
 
 const dummyData = [
   { name: "demo rpi 1", online: false, address: "123" },
@@ -39,7 +40,7 @@ class Icons extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await fetch("/api/pis/list")
+    const response = await fetchWithAuth("/api/pis/list")
     if (response.status !== 200) { //error
       this.NotificationRef.current.addAlert("danger", `Error code ${response.status}: ${response.statusText}`)
     }

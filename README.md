@@ -3,8 +3,8 @@ PiControl Web
 ## Development Set-up
 
 - Set "homepage" in package.json to the url you want.
-- Run npm build
-- Run npm start
+- Run `go get -u github.com/gin-gonic/gin github.com/joho/godotenv github.com/lib/pq`
+- Run `npm run dev-start`
 - Cross fingers
 - Works?
 
